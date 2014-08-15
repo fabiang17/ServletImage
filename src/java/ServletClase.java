@@ -3,9 +3,13 @@
  * and open the template in the editor.
  */
 
+import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.PrintWriter;
 import javax.servlet.ServletException;
+import javax.servlet.ServletOutputStream;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -43,6 +47,24 @@ public class ServletClase extends HttpServlet {
             out.println("<h1>Servlet ServletClase at " + request.getContextPath() + "</h1>");
             out.println("</body>");
             out.println("</html>");
+            
+            response.setContentType("image/jpeg");
+            ServletOutputStream out1 = response.getOutputStream();
+	    FileInputStream fin = new FileInputStream("c:\\BigImageMix.png");
+	
+            BufferedInputStream bin = new BufferedInputStream(fin);
+            BufferedOutputStream bout = new BufferedOutputStream(out1);
+            int ch =0; ;
+            while((ch=bin.read())!=-1)
+            {
+                bout.write(ch);
+            }
+	
+            bin.close();
+            fin.close();
+            bout.close();
+            out1.close();
+            
         } finally {            
             out.close();
         }
